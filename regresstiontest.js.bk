@@ -1,0 +1,93 @@
+Feature('Swag Labs');
+
+const loginPage = require('./pages/LoginPage');
+const inventoryPage = require('./pages/InventoryPage');
+const cartPage = require('./pages/CartPage');
+const checkoutPage = require('./pages/CheckoutPage');
+
+Before(({ I }) => {
+    I.amOnPage(loginPage.url);
+});
+
+Scenario('Successful Login', async ({ I }) => {
+    I.say('Given I am on the login page');
+    I.say('When I enter valid credentials');
+    I.fillField(loginPage.usernameField, 'standard_user');
+    I.fillField(loginPage.passwordField, 'secret_sauce');
+    I.click(loginPage.loginButton);
+    I.say('Then I should be logged in and redirected to the inventory page');
+    I.seeCurrentUrlEquals(inventoryPage.url);
+});
+
+Scenario('Invalid Login', async ({ I }) => {
+    I.say('Given I am on the login page');
+    I.say('When I enter invalid credentials');
+    I.fillField(loginPage.usernameField, 'invalid_user');
+    I.fillField(loginPage.passwordField, 'invalid_password');
+    I.click(loginPage.loginButton);
+    I.say('Then I should see an error message');
+    I.see('Epic sadface: Username and password do not match any user in this service');
+});
+
+Scenario('Logout Functionality', async ({ I }) => {
+    I.say('Given I am logged in');
+    I.login('standard_user', 'secret_sauce');
+    I.say('When I click on the logout button');
+    I.click(inventoryPage.burgerMenuButton);
+    I.click(inventoryPage.logoutLink);
+    I.say('Then I should be logged out and redirected to the login page');
+    I.seeCurrentUrlEquals(loginPage.url);
+});
+
+Scenario('Add Product to Cart', async ({ I }) => {
+    I.say('Given I am logged in');
+    I.login('standard_user', 'secret_sauce');
+    I.say('When I add a product to the cart');
+    I.click(inventoryPage.addToCartButton);
+    I.say('Then the cart badge should be updated');
+    I.seeElement(inventoryPage.cartBadge);
+});
+
+Scenario('Remove Product from Cart', async ({ I }) => {
+    I.say('Given I am logged in and have a product in the cart');
+    I.login('standard_user', 'secret_sauce');
+    I.addToCart();
+    I.say('When I remove the product from the cart');
+    I.click(inventoryPage.removeButton);
+    I.say('Then the cart badge should disappear');
+    I.dontSeeElement(inventoryPage.cartBadge);
+});
+
+Scenario('View Product Details', async ({ I }) => {
+    I.say('Given I am logged in');
+    I.login('standard_user', 'secret_sauce');
+    I.say('When I click on a product name');
+    I.click(inventoryPage.productName);
+    I.say('Then I should be redirected to the product details page');
+    I.seeCurrentUrlContains('/inventory-item.html');
+});
+
+Scenario('Checkout Process', async ({ I }) => {
+    I.say('Given I am logged in and have a product in the cart');
+    I.login('standard_user', 'secret_sauce');
+    I.addToCart();
+    I.say('When I complete the checkout process');
+    I.click(inventoryPage.cartLink);
+    I.click(cartPage.checkoutButton);
+    I.fillField(checkoutPage.firstNameField, 'John');
+    I.fillField(checkoutPage.lastNameField, 'Doe');
+    I.fillField(checkoutPage.zipCodeField, '12345');
+    I.click(checkoutPage.continueButton);
+    I.click(checkoutPage.finishButton);
+    I.say('Then I should see the order confirmation message');
+    I.see('Thank you for your order!');
+});
+
+Scenario('Verify Sorted Product Prices', async ({ I }) => {
+    I.say('Given I am logged in');
+    I.login('standard_user', 'secret_sauce');
+    I.say('When I sort the products by price (low to high)');
+    I.selectOption(inventoryPage.sortDropdown, 'lohi');
+    I.say('Then the products should be sorted by price in ascending order');
+    I.seeTextEquals('$7.99', locate(inventoryPage.productPrice).first());
+});
