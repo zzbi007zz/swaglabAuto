@@ -49,7 +49,7 @@ exports.config = {
       reporterOptions: {
         reportDir: './output',
         reportFilename: 'report',
-      },
+      }, // To generate the report run the command npx codeceptjs run --reporter mochawesome
     },
  
     

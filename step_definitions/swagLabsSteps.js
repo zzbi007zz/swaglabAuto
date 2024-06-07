@@ -103,6 +103,29 @@ Then('I should see the order confirmation message {string}', (confirmationMessag
     I.see(confirmationMessage);
 });
 
-Then('I should see the products sorted by price in ascending order', () => {
-    I.seeTextEquals('$7.99', locate(inventoryPage.productPrice).first());
+const assert = require('assert');
+
+Then('I should see the products sorted by price in ascending order', async () => {
+    const productPrices = await I.grabTextFromAll('.inventory_item_price');
+    const sortedPrices = [...productPrices].sort((a, b) => parseFloat(a.replace('$', '')) - parseFloat(b.replace('$', '')));
+
+    await I.waitForElement('.inventory_item_price', 5);
+
+    const isPricesSorted = async () => {
+        const currentPrices = await I.grabTextFromAll('.inventory_item_price');
+        return JSON.stringify(currentPrices) === JSON.stringify(sortedPrices);
+    };
+
+    const maxAttempts = 5;
+    let attempt = 0;
+
+    while (attempt < maxAttempts) {
+        if (await isPricesSorted()) {
+            break;
+        }
+        attempt++;
+        await I.wait(1);
+    }
+
+    assert.deepStrictEqual(productPrices, sortedPrices, 'Product prices are not sorted in ascending order');
 });
