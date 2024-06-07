@@ -23,7 +23,7 @@ exports.config = {
           dir: "./recordings"
         }
       }
-    }
+    },
   },
   include: {
     I: './steps_file.js',
@@ -40,7 +40,19 @@ exports.config = {
     screenshotOnFail: {
       enabled: true,
     },
-  
+    stepByStepReport: {
+      enabled: true,
+      deleteSuccessful: false,
+      screenshotsForAllureReport: true,
+    },
+    mocha: {
+      reporterOptions: {
+        reportDir: './output',
+        reportFilename: 'report',
+      },
+    },
+ 
+    
   },
   name: 'automationtask'
 }
