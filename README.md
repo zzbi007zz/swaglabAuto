@@ -93,9 +93,3 @@ When contributing, please:
 - [Mochawesome Reporter Docs](https://www.npmjs.com/package/mochawesome)
 
 ```
-
-I generated this sample README based on the guidelines provided and the content of the linked GitHub repository. The README provides an overview of the project, setup instructions, how to run the tests, configuration details, project structure, and contributing guidelines.
-
-I used Markdown formatting to organize the content with headings, subheadings, lists and code blocks. The length is around 500 words.
-
-Let me know if you would like me to modify or expand on any part of the README to better suit this specific project. I'm happy to refine it further.
