@@ -22,37 +22,37 @@ Before setting up the project, ensure you have the following installed:
 
 1. Clone the repository:
 
-   ```
+   
    git clone https://github.com/zzbi007zz/swaglabAuto.git
-   ```
+   
 
 2. Navigate to the project directory:
 
-   ```
+   
    cd swaglabAuto
-   ```
+   
 
 3. Install the dependencies:
 
-   ```
+   
    npm install
-   ```
+   
 
 ## Running Tests
 
 To run the CodeceptJS tests:
 
-```
+
 npx codeceptjs run --steps
-```
+
 
 This will run all the tests in the `tests` directory and display detailed step-by-step output.
 
 To generate an HTML report of the test results:
 
-```
+
 npx codeceptjs run --reporter mochawesome
-```
+
 
 The report will be generated in the `mochawesome-report` directory.
 
