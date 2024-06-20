@@ -151,3 +151,15 @@ Scenario('Verify Product Sorting - Name (Z to A)', async ({ I }) => {
     inventoryPage.sortProductsByName('za');
     I.seeTextEquals('Test.allTheThings() T-Shirt (Red)', locate(inventoryPage.productName).first());
 }).tag('@sorting');
+
+Scenario('Verify Checkout Information Validation', async ({ I }) => {
+    await loginPage.login('standard_user', 'secret_sauce');
+    I.click(inventoryPage.addToCartButton);
+    I.click(inventoryPage.cartLink);
+    I.click(cartPage.checkoutButton);
+    I.fillField(checkoutPage.firstNameField, '');
+    I.fillField(checkoutPage.lastNameField, '');
+    I.fillField(checkoutPage.zipCodeField, '');
+    I.click(checkoutPage.continueButton);
+    I.see('Error: First Name is required');
+}).tag('@checkout');

@@ -60,3 +60,12 @@ Feature: Swag Labs
         Given I am logged in as "standard_user" with password "secret_sauce"
         When I sort the products by price from high to low
         Then I should see the products sorted by price in descending order
+
+    Scenario: Verify Checkout Information Validation
+        Given I am logged in as "standard_user" with password "secret_sauce"
+        And I have added a product to the cart
+        When I click the cart link
+        And I click the checkout button
+        And I fill in the checkout information with first name "", last name "", and zip code ""
+        And I click the continue button
+        Then I should see an error message "Error: First Name is required"

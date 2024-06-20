@@ -160,3 +160,17 @@ Then('I should see the products sorted by name in descending order', async () =>
     const sortedNames = [...productNames].sort().reverse();
     assert.deepStrictEqual(productNames, sortedNames, 'Product names are not sorted in descending order');
 });
+
+When('I fill in the checkout information with first name {string}, last name {string}, and zip code {string}', (firstName, lastName, zipCode) => {
+    I.fillField(checkoutPage.firstNameField, firstName);
+    I.fillField(checkoutPage.lastNameField, lastName);
+    I.fillField(checkoutPage.zipCodeField, zipCode);
+});
+
+When('I click the continue button', () => {
+    I.click(checkoutPage.continueButton);
+});
+
+Then('I should see an error message {string}', (errorMessage) => {
+    I.see(errorMessage);
+});
