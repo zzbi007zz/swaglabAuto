@@ -50,3 +50,13 @@ Feature: Swag Labs
         Given I am logged in as "standard_user" with password "secret_sauce"
         When I sort the products by price from low to high
         Then I should see the products sorted by price in ascending order
+
+    Scenario: Verify Product Sorting - Name (Z to A)
+        Given I am logged in as "standard_user" with password "secret_sauce"
+        When I sort the products by name from Z to A
+        Then I should see the products sorted by name in descending order
+
+    Scenario: Verify Product Sorting - Price (high to low)
+        Given I am logged in as "standard_user" with password "secret_sauce"
+        When I sort the products by price from high to low
+        Then I should see the products sorted by price in descending order

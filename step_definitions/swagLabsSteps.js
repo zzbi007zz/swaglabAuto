@@ -129,3 +129,34 @@ Then('I should see the products sorted by price in ascending order', async () =>
 
     assert.deepStrictEqual(productPrices, sortedPrices, 'Product prices are not sorted in ascending order');
 });
+
+
+When('I sort the products by price from low to high', () => {
+    inventoryPage.sortProductsByPrice('lohi');
+});
+
+When('I sort the products by price from high to low', () => {
+    inventoryPage.sortProductsByPrice('hilo');
+});
+
+When('I sort the products by name from Z to A', () => {
+    inventoryPage.sortProductsByName('za');
+});
+
+Then('I should see the products sorted by price in ascending order', async () => {
+    const productPrices = await I.grabTextFromAll('.inventory_item_price');
+    const sortedPrices = [...productPrices].sort((a, b) => parseFloat(a.replace('$', '')) - parseFloat(b.replace('$', '')));
+    assert.deepStrictEqual(productPrices, sortedPrices, 'Product prices are not sorted in ascending order');
+});
+
+Then('I should see the products sorted by price in descending order', async () => {
+    const productPrices = await I.grabTextFromAll('.inventory_item_price');
+    const sortedPrices = [...productPrices].sort((a, b) => parseFloat(b.replace('$', '')) - parseFloat(a.replace('$', '')));
+    assert.deepStrictEqual(productPrices, sortedPrices, 'Product prices are not sorted in descending order');
+});
+
+Then('I should see the products sorted by name in descending order', async () => {
+    const productNames = await I.grabTextFromAll('.inventory_item_name');
+    const sortedNames = [...productNames].sort().reverse();
+    assert.deepStrictEqual(productNames, sortedNames, 'Product names are not sorted in descending order');
+});

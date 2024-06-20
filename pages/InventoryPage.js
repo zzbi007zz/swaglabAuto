@@ -26,5 +26,18 @@ module.exports = {
 
     sortProductsByPrice(option) {
         I.selectOption(this.sortDropdown, option);
+    },
+
+    sortProductsByName(order) {
+        const sortDropdown = locate('.product_sort_container');
+        if (order === 'az') {
+            I.selectOption(sortDropdown, 'Name (A to Z)');
+        } else if (order === 'za') {
+            I.selectOption(sortDropdown, 'Name (Z to A)');
+        } else {
+            throw new Error(`Invalid sorting order: ${order}`);
+        }
+
+        I.wait(1); // Wait for the page to update after sorting
     }
 };
